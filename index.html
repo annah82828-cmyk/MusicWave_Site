@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MusicWave — магазин музыкальных инструментов</title>
+<meta name="description" content="MusicWave — современный магазин музыкальных инструментов. Гитары, пианино, барабаны, студийное оборудование. Доставка по России.">
+<style>
+/* ============================================================
+   ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ
+   ============================================================ */
+:root{
+  --bg:            #0b0a12;
+  --bg-soft:       #10101a;
+  --card:          #171625;
+  --card-2:        #13121f;
+  --text:          #f2f0ff;
+  --muted:         #a5a1bd;
+  --accent:        #8b5cf6;
+  --accent-2:      #ec4899;
+  --accent-soft:   #c4b5fd;
+  --border:        rgba(255,255,255,.08);
+  --border-strong: rgba(255,255,255,.16);
+  --radius:        20px;
+  --shadow:        0 24px 60px -24px rgba(0,0,0,.9);
+  --grad:          linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+*,
+*::before,
+*::after{ box-sizing:border-box; }
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:92px;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  color:var(--text);
+  background:var(--bg);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+h1,h2,h3,h4{
+  margin:0;
+  font-weight:800;
+  line-height:1.12;
+  letter-spacing:-.02em;
+}
+
+p{ margin:0; }
+
+a{ color:inherit; text-decoration:none; }
+
+button{
+  font:inherit;
+  color:inherit;
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+img,svg{ display:block; max-width:100%; }
+
+ul{ margin:0; padding:0; list-style:none; }
+
+::selection{ background:rgba(236,72,153,.35); }
+
+/* ============================================================
+   УТИЛИТЫ
+   ============================================================ */
+.container{
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+.section{
+  position:relative;
+  padding:clamp(64px, 9vw, 112px) 0;
+}
+
+.grad-text{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+}
+.eyebrow::before{
+  content:"";
+  width:28px;
+  height:2px;
+  border-radius:2px;
+  background:var(--grad);
+}
+
+.section-head{
+  max-width:660px;
+  margin:0 auto clamp(36px, 5vw, 60px);
+  text-align:center;
+}
+.section-head h2{
+  font-size:clamp(1.75rem, 4.2vw, 2.7rem);
+  margin-bottom:14px;
+}
+.section-head p{
+  color:var(--muted);
+  font-size:clamp(.95rem, 1.6vw, 1.05rem);
+}
+
+/* ============================================================
+   КНОПКИ
+   ============================================================ */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:.9rem 1.7rem;
+  border-radius:999px;
+  font-size:.95rem;
+  font-weight:700;
+  letter-spacing:.01em;
+  border:1px solid transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),
+             box-shadow .3s ease,
+             background .3s ease,
+             border-color .3s ease,
+             color .3s ease;
+}
+
+.btn--primary{
+  background:var(--grad);
+  color:#fff;
+  box-shadow:0 12px 32px -12px rgba(139,92,246,.95);
+}
+.btn--primary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 20px 44px -14px rgba(236,72,153,.95);
+}
+.btn--primary:active{ transform:translateY(-1px); }
+
+.btn--ghost{
+  background:rgba(255,255,255,.04);
+  border-color:var(--border-strong);
+  color:var(--text);
+}
+.btn--ghost:hover{
+  background:rgba(255,255,255,.09);
+  border-color:rgba(139,92,246,.6);
+  transform:translateY(-3px);
+}
+
+.btn--sm{
+  padding:.6rem 1.15rem;
+  font-size:.85rem;
+}
+
+.btn:disabled{
+  cursor:default;
+  transform:none;
+}
+
+/* ============================================================
+   ШАПКА
+   ============================================================ */
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(11,10,18,.55);
+  border-bottom:1px solid transparent;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  transition:background .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+.header--scrolled{
+  background:rgba(11,10,18,.9);
+  border-bottom-color:var(--border);
+  box-shadow:0 12px 40px -20px rgba(0,0,0,.95);
+}
+
+.header__inner{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  height:74px;
+}
+
+/* Логотип */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-size:1.22rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  flex-shrink:0;
+}
+.logo__mark{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:var(--grad);
+  box-shadow:0 8px 22px -8px rgba(139,92,246,.95);
+  color:#fff;
+}
+.logo__mark svg{ width:21px; height:21px; }
+.logo span span{ color:var(--accent-soft); }
+
+/* Навигация */
+.nav{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  margin-left:auto;
+}
+.nav a:not(.btn){
+  padding:9px 14px;
+  border-radius:999px;
+  font-size:.93rem;
+  font-weight:500;
+  color:var(--muted);
+  transition:color .25s ease, background .25s ease;
+}
+.nav a:not(.btn):hover{
+  color:var(--text);
+  background:rgba(255,255,255,.07);
+}
+
+/* Кнопка корзины */
+.icon-btn{
+  position:relative;
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  transition:background .25s ease, border-color .25s ease, transform .25s ease;
+  flex-shrink:0;
+}
+.icon-btn:hover{
+  background:rgba(139,92,246,.18);
+  border-color:rgba(139,92,246,.55);
+  transform:translateY(-2px);
+}
+.icon-btn svg{ width:20px; height:20px; }
+
+.cart-count{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:var(--grad);
+  color:#fff;
+  font-size:.68rem;
+  font-weight:800;
+  line-height:1;
+  box-shadow:0 4px 12px -3px rgba(236,72,153,.9);
+  transition:transform .25s cubic-bezier(.2,1.6,.4,1);
+}
+.cart-count.pop{ transform:scale(1.45); }
+
+/* Бургер */
+.burger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:44px;
+  height:44px;
+  padding:0 11px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  flex-shrink:0;
+}
+.burger span{
+  display:block;
+  height:2px;
+  width:100%;
+  border-radius:2px;
+  background:var(--text);
+  transition:transform .3s ease, opacity .3s ease;
+}
+.burger.is-open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.burger.is-open span:nth-child(2){ opacity:0; }
+.burger.is-open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:clamp(56px, 8vw, 96px) 0 clamp(64px, 9vw, 110px);
+  isolation:isolate;
+}
+.hero::before,
+.hero::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  z-index:-1;
+  pointer-events:none;
+}
+.hero::before{
+  width:620px; height:620px;
+  top:-280px; left:-180px;
+  background:radial-gradient(circle, rgba(139,92,246,.42), transparent 70%);
+}
+.hero::after{
+  width:520px; height:520px;
+  bottom:-260px; right:-140px;
+  background:radial-gradient(circle, rgba(236,72,153,.32), transparent 70%);
+}
+
+.hero__inner{
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  gap:clamp(32px, 5vw, 64px);
+  align-items:center;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 15px;
+  margin-bottom:22px;
+  border-radius:999px;
+  border:1px solid rgba(139,92,246,.4);
+  background:rgba(139,92,246,.13);
+  color:var(--accent-soft);
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+
+.hero h1{
+  font-size:clamp(2.15rem, 5.6vw, 3.9rem);
+  line-height:1.06;
+  margin-bottom:20px;
+}
+
+.hero__text{
+  max-width:520px;
+  margin-bottom:32px;
+  font-size:clamp(.98rem, 1.7vw, 1.1rem);
+  color:var(--muted);
+}
+
+.hero__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:44px;
+}
+
+.hero__stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(20px, 4vw, 44px);
+}
+.hero__stats div{ display:flex; flex-direction:column; }
+.hero__stats strong{
+  font-size:clamp(1.3rem, 2.6vw, 1.65rem);
+  font-weight:800;
+  line-height:1.2;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero__stats span{
+  font-size:.8rem;
+  color:var(--muted);
+  letter-spacing:.02em;
+}
+
+/* Визуал героя — «плеер» */
+.hero__visual{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  padding: 20px 0; /* Добавлен отступ для плавающих карточек */
+}
+
+.player{
+  position:relative;
+  width:100%;
+  max-width:380px;
+  padding:24px;
+  border-radius:26px;
+  border:1px solid var(--border-strong);
+  background:linear-gradient(160deg, rgba(30,28,48,.95), rgba(17,16,27,.95));
+  box-shadow:var(--shadow), 0 0 70px -30px rgba(139,92,246,.85);
+  backdrop-filter:blur(10px);
+}
+
+.player__top{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:22px;
+}
+.player__cover{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  background:var(--grad);
+  font-size:1.4rem;
+  box-shadow:0 10px 26px -10px rgba(236,72,153,.95);
+  flex-shrink:0;
+}
+.player__title{ font-weight:700; font-size:.98rem; }
+.player__sub{ font-size:.78rem; color:var(--muted); }
+
+/* Эквалайзер */
+.equalizer{
+  display:flex;
+  align-items:flex-end;
+  gap:5px;
+  height:78px;
+  margin-bottom:18px;
+}
+.equalizer span{
+  flex:1;
+  height:30%;
+  border-radius:5px;
+  background:linear-gradient(180deg, var(--accent-2), var(--accent));
+  animation:eq 1.15s ease-in-out infinite alternate;
+  animation-delay:var(--d, 0s);
+  opacity:.92;
+}
+@keyframes eq{
+  from{ height:16%; opacity:.55; }
+  to  { height:100%; opacity:1; }
+}
+
+.player__meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:.75rem;
+  color:var(--muted);
+  margin-bottom:10px;
+  font-variant-numeric:tabular-nums;
+}
+.player__bar{
+  height:6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.09);
+  overflow:hidden;
+}
+.player__bar span{
+  display:block;
+  height:100%;
+  width:38%;
+  border-radius:999px;
+  background:var(--grad);
+  animation:progress 9s ease-in-out infinite alternate;
+}
+@keyframes progress{
+  from{ width:18%; }
+  to  { width:88%; }
+}
+
+/* Плавающие карточки (ИСПРАВЛЕНО) */
+.float-card{
+  position:absolute;
+  padding:11px 16px;
+  border-radius:14px;
+  border:1px solid var(--border-strong);
+  background:rgba(24,22,38,.92);
+  backdrop-filter:blur(12px);
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--text);
+  box-shadow:0 16px 36px -18px rgba(0,0,0,.95);
+  animation:float 5.5s ease-in-out infinite;
+  white-space:nowrap;
+  z-index: 2;
+}
+.float-card b{ color:var(--accent-soft); }
+
+/* Сдвигаем карточки за пределы плеера */
+.float-card--1{ 
+  top: 0; 
+  left: -40px; 
+}
+.float-card--2{ 
+  bottom: 0; 
+  right: -40px; 
+  animation-delay:-2.6s; 
+}
+
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%    { transform:translateY(-13px); }
+}
+
+/* ============================================================
+   О КОМПАНИИ
+   ============================================================ */
+.about__grid{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:clamp(32px, 6vw, 72px);
+  align-items:center;
+}
+
+.about__media{
+  position:relative;
+  display:grid;
+  place-items:center;
+  padding:26px;
+  min-height:340px;
+  border-radius:28px;
+  border:1px solid var(--border);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(139,92,246,.28), transparent 68%),
+    var(--card-2);
+  overflow:hidden;
+}
+
+.vinyl{
+  width:min(290px, 68vw);
+  aspect-ratio:1;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:repeating-radial-gradient(circle at 50% 50%,
+              #1c1a2b 0 3px, #121120 3px 7px);
+  box-shadow:0 0 0 1px var(--border-strong),
+             0 40px 70px -34px rgba(139,92,246,.9);
+  animation:spin 22s linear infinite;
+}
+.vinyl__label{
+  width:38%;
+  aspect-ratio:1;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--grad);
+  color:#fff;
+  font-weight:800;
+  font-size:1.05rem;
+  letter-spacing:.08em;
+  box-shadow:inset 0 0 0 5px rgba(0,0,0,.25);
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+.about__badge{
+  position:absolute;
+  bottom:22px;
+  right:22px;
+  padding:14px 20px;
+  border-radius:18px;
+  border:1px solid var(--border-strong);
+  background:rgba(24,22,38,.95);
+  backdrop-filter:blur(10px);
+  text-align:center;
+  box-shadow:0 18px 40px -20px rgba(0,0,0,.95);
+}
+.about__badge strong{
+  display:block;
+  font-size:1.6rem;
+  font-weight:800;
+  line-height:1;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.about__badge span{
+  font-size:.72rem;
+  color:var(--muted);
+  letter-spacing:.04em;
+}
+
+.about__text h2{
+  font-size:clamp(1.7rem, 3.8vw, 2.5rem);
+  margin-bottom:18px;
+}
+.about__text p{
+  color:var(--muted);
+  margin-bottom:16px;
+  font-size:clamp(.95rem, 1.6vw, 1.03rem);
+}
+
+.about__list{
+  display:grid;
+  gap:12px;
+  margin-top:26px;
+}
+.about__list li{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  font-size:.95rem;
+}
+.about__list svg{
+  width:20px;
+  height:20px;
+  flex-shrink:0;
+  margin-top:3px;
+  color:var(--accent-2);
+}
+
+/* ============================================================
+   ПРЕИМУЩЕСТВА
+   ============================================================ */
+.advantages__grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:20px;
+}
+
+.advantage{
+  position:relative;
+  padding:30px 26px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  overflow:hidden;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),
+             border-color .35s ease,
+             box-shadow .35s ease;
+}
+.advantage::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:radial-gradient(circle at 50% 0%, rgba(139,92,246,.22), transparent 65%);
+  opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+}
+.advantage:hover{
+  transform:translateY(-7px);
+  border-color:rgba(139,92,246,.5);
+  box-shadow:0 26px 50px -26px rgba(139,92,246,.85);
+}
+.advantage:hover::after{ opacity:1; }
+
+.advantage__icon{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  margin-bottom:18px;
+  border-radius:15px;
+  background:rgba(139,92,246,.15);
+  border:1px solid rgba(139,92,246,.32);
+  color:var(--accent-soft);
+  transition:background .35s ease, color .35s ease, transform .35s ease;
+}
+.advantage:hover .advantage__icon{
+  background:var(--grad);
+  color:#fff;
+  transform:rotate(-6deg) scale(1.06);
+}
+.advantage__icon svg{ width:25px; height:25px; }
+
+.advantage h3{
+  font-size:1.08rem;
+  margin-bottom:9px;
+}
+.advantage p{
+  font-size:.9rem;
+  color:var(--muted);
+}
+
+/* ============================================================
+   КАТАЛОГ
+   ============================================================ */
+.catalog__grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+  gap:22px;
+}
+
+.card{
+  display:flex;
+  flex-direction:column;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  overflow:hidden;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),
+             border-color .4s ease,
+             box-shadow .4s ease;
+}
+.card:hover{
+  transform:translateY(-9px);
+  border-color:rgba(139,92,246,.55);
+  box-shadow:0 30px 60px -28px rgba(139,92,246,.95);
+}
+
+.card__media{
+  position:relative;
+  height:188px;
+  display:grid;
+  place-items:center;
+  border-bottom:1px solid var(--border);
+  background:
+    radial-gradient(circle at 50% 118%, rgba(139,92,246,.38), transparent 66%),
+    #14131f;
+  overflow:hidden;
+}
+.card__media svg{
+  width:82px;
+  height:82px;
+  color:var(--accent-soft);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), color .4s ease;
+}
+.card:hover .card__media svg{
+  transform:scale(1.14) rotate(-5deg);
+  color:#fff;
+}
+
+.card__badge{
+  position:absolute;
+  top:14px;
+  left:14px;
+  padding:5px 11px;
+  border-radius:999px;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  background:var(--grad);
+  color:#fff;
+  box-shadow:0 8px 20px -8px rgba(236,72,153,.95);
+}
+
+.card__body{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  padding:20px 20px 22px;
+}
+.card__cat{
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+.card h3{
+  font-size:1.06rem;
+  margin-bottom:8px;
+}
+.card__desc{
+  font-size:.86rem;
+  color:var(--muted);
+  margin-bottom:20px;
+  flex:1;
+}
+
+.card__footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.card__price{
+  display:flex;
+  flex-direction:column;
+  line-height:1.2;
+}
+.card__price b{
+  font-size:1.12rem;
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+.card__price s{
+  font-size:.76rem;
+  color:var(--muted);
+  opacity:.75;
+}
+
+/* ============================================================
+   ОТЗЫВЫ
+   ============================================================ */
+.reviews__grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:22px;
+}
+
+.review{
+  display:flex;
+  flex-direction:column;
+  padding:28px 26px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),
+             border-color .35s ease,
+             box-shadow .35s ease;
+}
+.review:hover{
+  transform:translateY(-6px);
+  border-color:rgba(236,72,153,.45);
+  box-shadow:0 26px 52px -28px rgba(236,72,153,.85);
+}
+
+.review__stars{
+  color:#fbbf24;
+  font-size:1rem;
+  letter-spacing:3px;
+  margin-bottom:14px;
+}
+
+.review p{
+  flex:1;
+  font-size:.94rem;
+  color:var(--muted);
+  margin-bottom:22px;
+}
+
+.review__author{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
+}
+.avatar{
+  width:44px;
+  height:44px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--grad);
+  color:#fff;
+  font-size:.85rem;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.review__author strong{
+  display:block;
+  font-size:.92rem;
+  font-weight:700;
+}
+.review__author span{
+  display:block;
+  font-size:.76rem;
+  color:var(--muted);
+}
+
+/* ============================================================
+   КОНТАКТЫ
+   ============================================================ */
+.contacts__grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(24px, 4vw, 40px);
+  align-items:stretch;
+}
+
+.contacts__info{
+  display:grid;
+  gap:14px;
+  align-content:start;
+}
+
+.contact-item{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  padding:20px 22px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, var(--card), var(--card-2));
+  transition:transform .3s ease, border-color .3s ease, background .3s ease;
+}
+.contact-item:hover{
+  transform:translateX(6px);
+  border-color:rgba(139,92,246,.5);
+  background:linear-gradient(180deg, #1b1930, var(--card-2));
+}
+
+.contact-item__icon{
+  width:44px;
+  height:44px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:rgba(139,92,246,.15);
+  border:1px solid rgba(139,92,246,.3);
+  color:var(--accent-soft);
+}
+.contact-item__icon svg{ width:20px; height:20px; }
+
+.contact-item span{
+  display:block;
+  font-size:.74rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:3px;
+}
+.contact-item strong{
+  font-size:.98rem;
+  font-weight:700;
+  line-height:1.4;
+}
+
+/* Декоративная «карта» */
+.map{
+  position:relative;
+  min-height:300px;
+  border-radius:24px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 50% 55%, rgba(139,92,246,.3), transparent 62%),
+    repeating-linear-gradient(0deg,  rgba(255,255,255,.05) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 44px),
+    #12111c;
+}
+.map::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, transparent 55%, rgba(11,10,18,.75));
+  pointer-events:none;
+}
+
+.map__pin{
+  position:relative;
+  width:60px;
+  height:60px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--grad);
+  color:#fff;
+  box-shadow:0 16px 40px -14px rgba(236,72,153,.95);
+  z-index:1;
+}
+.map__pin::before{
+  content:"";
+  position:absolute;
+  inset:-14px;
+  border-radius:50%;
+  border:2px solid rgba(236,72,153,.55);
+  animation:pulse 2.4s ease-out infinite;
+}
+@keyframes pulse{
+  0%  { transform:scale(.7); opacity:.9; }
+  100%{ transform:scale(1.6); opacity:0; }
+}
+.map__pin svg{ width:26px; height:26px; }
+
+.map__label{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:10px 20px;
+  border-radius:999px;
+  border:1px solid var(--border-strong);
+  background:rgba(18,17,28,.92);
+  backdrop-filter:blur(10px);
+  font-size:.82rem;
+  font-weight:600;
+  white-space:nowrap;
+  z-index:2;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  position:relative;
+  padding:clamp(48px, 6vw, 72px) 0 28px;
+  border-top:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(139,92,246,.06), transparent 60%);
+}
+
+.footer__grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:clamp(28px, 5vw, 56px);
+  margin-bottom:44px;
+}
+
+.footer__about p{
+  max-width:320px;
+  margin:16px 0 22px;
+  font-size:.9rem;
+  color:var(--muted);
+}
+
+.socials{
+  display:flex;
+  gap:10px;
+}
+.socials a{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  color:var(--muted);
+  transition:color .25s ease, background .25s ease,
+             border-color .25s ease, transform .25s ease;
+}
+.socials a:hover{
+  color:#fff;
+  background:rgba(139,92,246,.25);
+  border-color:rgba(139,92,246,.6);
+  transform:translateY(-3px);
+}
+.socials svg{ width:18px; height:18px; }
+
+.footer h4{
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:16px;
+}
+.footer__links{
+  display:grid;
+  gap:10px;
+}
+.footer__links a{
+  font-size:.92rem;
+  color:var(--text);
+  opacity:.8;
+  transition:opacity .25s ease, color .25s ease, transform .25s ease;
+  width:fit-content;
+}
+.footer__links a:hover{
+  opacity:1;
+  color:var(--accent-soft);
+  transform:translateX(4px);
+}
+
+.footer__bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  font-size:.82rem;
+  color:var(--muted);
+}
+
+/* ============================================================
+   АНИМАЦИЯ ПОЯВЛЕНИЯ
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .75s ease, transform .75s cubic-bezier(.2,.8,.2,1);
+  will-change:opacity, transform;
+}
+.reveal.is-visible{
+  opacity:1;
+  transform:none;
+}
+
+/* ============================================================
+   АДАПТИВНОСТЬ
+   ============================================================ */
+@media (max-width: 980px){
+  .hero__inner{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+  .hero__text{ margin-left:auto; margin-right:auto; }
+  .hero__actions{ justify-content:center; }
+  .hero__stats{ justify-content:center; }
+  .hero__visual{ margin-top:20px; }
+  
+  /* Корректировка для планшетов, чтобы не вылезало за края */
+  .float-card--1{ left: 0; top: -20px; }
+  .float-card--2{ right: 0; bottom: -20px; }
+
+  .about__grid{ grid-template-columns:1fr; }
+  .about__media{ order:-1; min-height:300px; }
+
+  .contacts__grid{ grid-template-columns:1fr; }
+
+  .footer__grid{ grid-template-columns:1fr 1fr; }
+  .footer__about{ grid-column:1 / -1; }
+}
+
+@media (max-width: 860px){
+  html{ scroll-padding-top:84px; }
+
+  .header__inner{ height:68px; }
+
+  .burger{ display:flex; }
+
+  .nav{
+    position:fixed;
+    top:78px;
+    left:16px;
+    right:16px;
+    flex-direction:column;
+    align-items:stretch;
+    gap:2px;
+    margin-left:0;
+    padding:12px;
+    border-radius:22px;
+    border:1px solid var(--border-strong);
+    background:rgba(17,16,28,.98);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    box-shadow:0 30px 70px -24px rgba(0,0,0,.95);
+    opacity:0;
+    transform:translateY(-14px);
+    pointer-events:none;
+    transition:opacity .3s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+    max-height:calc(100vh - 100px);
+    overflow-y:auto;
+  }
+  .nav.is-open{
+    opacity:1;
+    transform:none;
+    pointer-events:auto;
+  }
+  .nav a:not(.btn){
+    padding:13px 16px;
+    font-size:.98rem;
+    border-radius:14px;
+  }
+  .nav a:not(.btn):hover{ background:rgba(139,92,246,.16); }
+
+  .hero__stats{ gap:26px; }
+}
+
+@media (max-width: 560px){
+  .section{ padding:clamp(52px, 12vw, 70px) 0; }
+
+  .logo{ font-size:1.08rem; }
+  .logo__mark{ width:36px; height:36px; border-radius:12px; }
+
+  .hero__actions .btn{ flex:1 1 100%; }
+
+  .hero__stats{
+    justify-content:space-between;
+    gap:14px;
+    width:100%;
+  }
+  .hero__stats div{ flex:1 1 30%; }
+
+  /* На мобильных карточки становятся по центру над и под плеером */
+  .float-card{ font-size:.75rem; padding:9px 14px; }
+  .float-card--1{ 
+    top: -35px; 
+    left: 0; 
+    right: 0; 
+    margin: 0 auto; 
+    width: max-content; 
+  }
+  .float-card--2{ 
+    bottom: -35px; 
+    left: 0; 
+    right: 0; 
+    margin: 0 auto; 
+    width: max-content; 
+  }
+
+  .card__footer{ gap:14px; }
+  .card__footer .btn{ width:100%; }
+
+  .footer__grid{ grid-template-columns:1fr; }
+
+  .footer__bottom{ flex-direction:column; align-items:flex-start; }
+}
+
+/* Уважение к настройкам пользователя */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,
+  *::before,
+  *::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .reveal{ opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== ШАПКА ==================== -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="#hero" class="logo" aria-label="MusicWave — на главную">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M3 12h2l2-6 3 12 3-15 3 13 2-4h3"/>
+        </svg>
+      </span>
+      <span>Music<span>Wave</span></span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#about">О нас</a>
+      <a href="#advantages">Преимущества</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+
+    <button class="icon-btn" id="cartBtn" type="button" aria-label="Корзина">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <path d="M3 6h18"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <button class="burger" id="burger" type="button"
+            aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="container hero__inner">
+
+      <div class="hero__content reveal">
+        <span class="badge">🎸 Более 2000 инструментов в наличии</span>
+
+        <h1>Почувствуй <span class="grad-text">ритм</span><br>своего звука</h1>
+
+        <p class="hero__text">
+          MusicWave — это магазин для тех, кто живёт музыкой. Гитары, клавишные,
+          барабаны и студийное оборудование от мировых брендов. Поможем выбрать
+          инструмент, который звучит именно так, как ты слышишь его в своей голове.
+        </p>
+
+        <div class="hero__actions">
+          <a href="#catalog" class="btn btn--primary">Смотреть каталог</a>
+          <a href="#contacts" class="btn btn--ghost">Связаться с нами</a>
+        </div>
+
+        <div class="hero__stats">
+          <div><strong>2000+</strong><span>инструментов</span></div>
+          <div><strong>15 лет</strong><span>на рынке</span></div>
+          <div><strong>98%</strong><span>довольных клиентов</span></div>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal">
+        <div class="player">
+          <div class="player__top">
+            <div class="player__cover" aria-hidden="true">🎧</div>
+            <div>
+              <div class="player__title">MusicWave Studio</div>
+              <div class="player__sub">Live-сессия · Side A</div>
+            </div>
+          </div>
+
+          <div class="equalizer" aria-hidden="true">
+            <span style="--d:0s"></span>
+            <span style="--d:.12s"></span>
+            <span style="--d:.24s"></span>
+            <span style="--d:.06s"></span>
+            <span style="--d:.3s"></span>
+            <span style="--d:.18s"></span>
+            <span style="--d:.36s"></span>
+            <span style="--d:.09s"></span>
+            <span style="--d:.27s"></span>
+            <span style="--d:.15s"></span>
+            <span style="--d:.33s"></span>
+            <span style="--d:.03s"></span>
+          </div>
+
+          <div class="player__meta">
+            <span>01:24</span>
+            <span>03:58</span>
+          </div>
+          <div class="player__bar"><span></span></div>
+        </div>
+
+        <!-- Исправленные плавающие карточки -->
+        <div class="float-card float-card--1">🔥 <b>−15%</b> на гитары до конца месяца</div>
+        <div class="float-card float-card--2">⭐ 4.9 / 5 · 1200+ отзывов</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== О КОМПАНИИ ==================== -->
+  <section class="section" id="about">
+    <div class="container about__grid">
+
+      <div class="about__media reveal">
+        <div class="vinyl" aria-hidden="true">
+          <div class="vinyl__label">MW</div>
+        </div>
+        <div class="about__badge">
+          <strong>15</strong>
+          <span>лет на сцене</span>
+        </div>
+      </div>
+
+      <div class="about__text reveal">
+        <span class="eyebrow">О компании</span>
+        <h2>Мы знаем, как звучит твоя мечта</h2>
+        <p>
+          Всё началось в 2009 году с маленькой мастерской в подвале, где два
+          музыканта чинили старые гитары и мечтали о собственном магазине.
+          Сегодня MusicWave — это 15 лет опыта, три шоурума и тысячи
+          музыкантов, которые нашли свой инструмент именно у нас.
+        </p>
+        <p>
+          Мы не просто продаём инструменты — мы подбираем звук. Каждый сотрудник
+          нашего магазина играет сам, поэтому может честно рассказать, чем
+          отличается одна модель от другой и что подойдёт именно вам.
+        </p>
+
+        <ul class="about__list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Собственная мастерская: настройка и предпродажная подготовка каждого инструмента</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Официальный дилер Fender, Yamaha, Pearl, Shure и ещё 40 брендов</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Шоурум, где можно поиграть на любом инструменте перед покупкой</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== ПРЕИМУЩЕСТВА ==================== -->
+  <section class="section" id="advantages">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Почему мы</span>
+        <h2>Преимущества MusicWave</h2>
+        <p>Мы делаем покупку инструмента такой же приятной, как первая репетиция.</p>
+      </div>
+
+      <div class="advantages__grid">
+
+        <article class="advantage reveal">
+          <div class="advantage__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2 4 6v6c0 5 3.4 9.2 8 10 4.6-.8 8-5 8-10V6l-8-4z"/>
+              <polyline points="9 12 11.5 14.5 15.5 10"/>
+            </svg>
+          </div>
+          <h3>Официальная гарантия</h3>
+          <p>Только оригинальные инструменты от проверенных производителей. Гарантия до 3 лет на весь ассортимент.</p>
+        </article>
+
+        <article class="advantage reveal">
+          <div class="advantage__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13" rx="2"/>
+              <path d="M16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <h3>Быстрая доставка</h3>
+          <p>По Москве — в день заказа. По России — от 2 дней. Бережная упаковка и полная страховка груза.</p>
+        </article>
+
+        <article class="advantage reveal">
+          <div class="advantage__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3>Настройка в подарок</h3>
+          <p>Любой инструмент отдаём уже настроенным и готовым к игре. Первое ТО — бесплатно.</p>
+        </article>
+
+        <article class="advantage reveal">
+          <div class="advantage__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3>Живая консультация</h3>
+          <p>Поможем с выбором по телефону, в чате или в шоуруме. Без навязывания и «продаж любой ценой».</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== КАТАЛОГ ==================== -->
+  <section class="section" id="catalog">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Каталог</span>
+        <h2>Популярные инструменты</h2>
+        <p>Хиты продаж, которые чаще всего уезжают из нашего шоурума.</p>
+      </div>
+
+      <div class="catalog__grid">
+
+        <!-- Карточка 1 -->
+        <article class="card reveal">
+          <div class="card__media">
+            <span class="card__badge">Хит</span>
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <ellipse cx="32" cy="44" rx="13" ry="14"/>
+              <circle cx="32" cy="44" r="4.5"/>
+              <line x1="32" y1="30" x2="32" y2="9"/>
+              <rect x="26" y="4" width="12" height="6" rx="2.5"/>
+            </svg>
+          </div>
+          <div class="card__body">
+            <span class="card__cat">Электрогитары</span>
+            <h3>Fender Stratocaster</h3>
+            <p class="card__desc">Легендарный звук, кленовый гриф, три сингла. Универсальный инструмент для любой сцены.</p>
+            <div class="card__footer">
+              <div class="card__price">
+                <b>89 990 ₽</b>
+                <s>105 000 ₽</s>
+              </div>
+              <button class="btn btn--sm btn--primary add-to-cart" type="button">В корзину</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Карточка 2 -->
+        <article class="card reveal">
+          <div class="card__media">
+            <span class="card__badge">Новинка</span>
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="6" y="20" width="52" height="26" rx="4"/>
+              <line x1="19" y1="20" x2="19" y2="46"/>
+              <line x1="32" y1="20" x2="32" y2="46"/>
+              <line x1="45" y1="20" x2="45" y2="46"/>
+              <rect x="15" y="20" width="8" height="15" rx="1.5" fill="currentColor" stroke="none"/>
+              <rect x="28" y="20" width="8" height="15" rx="1.5" fill="currentColor" stroke="none"/>
+              <rect x="41" y="20" width="8" height="15" rx="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div class="card__body">
+            <span class="card__cat">Клавишные</span>
+            <h3>Yamaha P-125</h3>
+            <p class="card__desc">Цифровое пианино с взвешенной клавиатурой и звуком концертного рояля. Компактно и честно.</p>
+            <div class="card__footer">
+              <div class="card__price">
+                <b>64 500 ₽</b>
+                <s>72 000 ₽</s>
+              </div>
+              <button class="btn btn--sm btn--primary add-to-cart" type="button">В корзину</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Карточка 3 -->
+        <article class="card reveal">
+          <div class="card__media">
+            <span class="card__badge">Топ</span>
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <ellipse cx="32" cy="24" rx="20" ry="8"/>
+              <path d="M12 24v14c0 4.4 9 8 20 8s20-3.6 20-8V24"/>
+              <line x1="20" y1="6" x2="26" y2="18"/>
+              <line x1="44" y1="6" x2="38" y2="18"/>
+            </svg>
+          </div>
+          <div class="card__body">
+            <span class="card__cat">Ударные</span>
+            <h3>Pearl Roadshow</h3>
+            <p class="card__desc">Полный комплект акустики: бочка, томы, малый барабан и стойки. Готово к репетиции.</p>
+            <div class="card__footer">
+              <div class="card__price">
+                <b>78 900 ₽</b>
+                <s>86 000 ₽</s>
+              </div>
+              <button class="btn btn--sm btn--primary add-to-cart" type="button">В корзину</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Карточка 4 -->
+        <article class="card reveal">
+          <div class="card__media">
+            <span class="card__badge">Студия</span>
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="25" y="7" width="14" height="27" rx="7"/>
+              <path d="M19 30a13 13 0 0 0 26 0"/>
+              <line x1="32" y1="43" x2="32" y2="54"/>
+              <line x1="23" y1="54" x2="41" y2="54"/>
+            </svg>
+          </div>
+          <div class="card__body">
+            <span class="card__cat">Микрофоны</span>
+            <h3>Shure SM7B</h3>
+            <p class="card__desc">Эталонный студийный микрофон для вокала и подкастов. Плотный звук без лишнего шума.</p>
+            <div class="card__footer">
+              <div class="card__price">
+                <b>42 300 ₽</b>
+                <s>47 500 ₽</s>
+              </div>
+              <button class="btn btn--sm btn--primary add-to-cart" type="button">В корзину</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ОТЗЫВЫ ==================== -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Отзывы</span>
+        <h2>Что говорят музыканты</h2>
+        <p>Более 1200 отзывов и средняя оценка 4.9 из 5.</p>
+      </div>
+
+      <div class="reviews__grid">
+
+        <article class="review reveal">
+          <div class="review__stars" aria-label="Оценка 5 из 5">★★★★★</div>
+          <p>
+            «Покупала здесь первую электрогитару. Консультант полтора часа
+            подбирал вместе со мной модель, дал поиграть на пяти разных — и ни
+            разу не попытался продать самую дорогую. Ушла с инструментом,
+            который идеально лежит в руке.»
+          </p>
+          <div class="review__author">
+            <div class="avatar">АК</div>
+            <div>
+              <strong>Анна Ковалёва</strong>
+              <span>Гитаристка, группа «Тихие Волны»</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="review reveal">
+          <div class="review__stars" aria-label="Оценка 5 из 5">★★★★★</div>
+          <p>
+            «Заказывал барабанную установку в другой город. Пришла ровно в срок,
+            упакована так, что хоть с самолёта сбрасывай. Отдельный респект за
+            бесплатную настройку — собрал и сразу сел играть.»
+          </p>
+          <div class="review__author">
+            <div class="avatar">ДС</div>
+            <div>
+              <strong>Дмитрий Соколов</strong>
+              <span>Барабанщик, сессионный музыкант</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="review reveal">
+          <div class="review__stars" aria-label="Оценка 5 из 5">★★★★★</div>
+          <p>
+            «Собрал в MusicWave весь домашний сетап: микрофон, интерфейс, стойки.
+            Помогли с коммутацией и даже прислали схему подключения. Такое
+            отношение дороже любой скидки.»
+          </p>
+          <div class="review__author">
+            <div class="avatar">МЛ</div>
+            <div>
+              <strong>Марина Лебедева</strong>
+              <span>Звукорежиссёр, подкаст «Октава»</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== КОНТАКТЫ ==================== -->
+  <section class="section" id="contacts">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Контакты</span>
+        <h2>Приходите играть</h2>
+        <p>В нашем шоуруме можно потрогать, послушать и сравнить любой инструмент.</p>
+      </div>
+
+      <div class="contacts__grid">
+
+        <div class="contacts__info reveal">
+
+          <a class="contact-item" href="tel:+74951234567">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/>
+              </svg>
+            </span>
+            <div>
+              <span>Телефон</span>
+              <strong>+7 (495) 123-45-67</strong>
+            </div>
+          </a>
+
+          <div class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <div>
+              <span>Адрес шоурума</span>
+              <strong>Москва, ул. Арбат, 24, 1 этаж</strong>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15.5 14"/>
+              </svg>
+            </span>
+            <div>
+              <span>График работы</span>
+              <strong>Пн–Пт: 10:00 – 21:00<br>Сб–Вс: 11:00 – 20:00</strong>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-item__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="3"/>
+                <polyline points="3 6 12 13 21 6"/>
+              </svg>
+            </span>
+            <div>
+              <span>E-mail</span>
+              <strong>hello@musicwave.ru</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="map reveal">
+          <div class="map__pin" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="map__label">MusicWave · ул. Арбат, 24</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="container">
+
+    <div class="footer__grid">
+
+      <div class="footer__about">
+        <a href="#hero" class="logo" aria-label="MusicWave — на главную">
+          <span class="logo__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <path d="M3 12h2l2-6 3 12 3-15 3 13 2-4h3"/>
+            </svg>
+          </span>
+          <span>Music<span>Wave</span></span>
+        </a>
+        <p>
+          Магазин музыкальных инструментов для тех, кто живёт музыкой.
+          Подбираем звук с 2009 года.
+        </p>
+        <div class="socials">
+          <a href="#" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M21.9 4.3 18.7 19c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.3 12.3l-4.8-1.5c-1-.3-1-1 .2-1.5l18.9-7.3c.9-.3 1.6.2 1.3 2.3z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="ВКонтакте">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M13.2 18.4c-6.2 0-9.9-4.3-10-11.3h3.2c.1 5.2 2.5 7.4 4.3 7.8V7.1h3v4.4c1.7-.2 3.5-2.1 4.1-4.4h3c-.5 2.8-2.4 4.7-3.7 5.5 1.3.7 3.5 2.3 4.3 5.8h-3.3c-.6-2.2-2.3-3.9-4.4-4.1v4.1h-.5z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M23 12s0-3.5-.4-5.2c-.3-1-1-1.7-2-2C18.9 4.4 12 4.4 12 4.4s-6.9 0-8.6.4c-1 .3-1.7 1-2 2C1 8.5 1 12 1 12s0 3.5.4 5.2c.3 1 1 1.7 2 2 1.7.4 8.6.4 8.6.4s6.9 0 8.6-.4c1-.3 1.7-1 2-2 .4-1.7.4-5.2.4-5.2zM9.8 15.5v-7l6 3.5-6 3.5z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Магазин</h4>
+        <nav class="footer__links">
+          <a href="#about">О компании</a>
+          <a href="#advantages">Преимущества</a>
+          <a href="#catalog">Каталог</a>
+          <a href="#reviews">Отзывы</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4>Покупателям</h4>
+        <nav class="footer__links">
+          <a href="#contacts">Доставка и оплата</a>
+          <a href="#contacts">Гарантия и возврат</a>
+          <a href="#contacts">Рассрочка</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2024 MusicWave. Все права защищены.</span>
+      <span>Москва, ул. Арбат, 24 · +7 (495) 123-45-67</span>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 1. Мобильное меню ---------- */
+  var burger = document.getElementById('burger');
+  var nav    = document.getElementById('nav');
+
+  function closeNav() {
+    nav.classList.remove('is-open');
+    burger.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Открыть меню');
+  }
+
+  burger.addEventListener('click', function () {
+    var isOpen = nav.classList.toggle('is-open');
+    burger.classList.toggle('is-open', isOpen);
+    burger.setAttribute('aria-expanded', String(isOpen));
+    burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+  });
+
+  // Закрываем меню при клике по ссылке
+  nav.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', closeNav);
+  });
+
+  // Закрываем меню при клике вне его
+  document.addEventListener('click', function (e) {
+    if (!nav.classList.contains('is-open')) return;
+    if (!nav.contains(e.target) && !burger.contains(e.target)) closeNav();
+  });
+
+  // Закрываем по Esc
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeNav();
+  });
+
+  // При ресайзе до десктопа — сбрасываем состояние
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 860) closeNav();
+  });
+
+  /* ---------- 2. Тень шапки при скролле ---------- */
+  var header = document.getElementById('header');
+
+  function onScroll() {
+    header.classList.toggle('header--scrolled', window.scrollY > 12);
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- 3. Плавная прокрутка (fallback + оффсет шапки) ---------- */
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var id = link.getAttribute('href');
+      if (!id || id === '#') return;
+
+      var target = document.querySelector(id);
+      if (!target) return;
+
+      e.preventDefault();
+
+      var headerH = header.offsetHeight;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
+
+      window.scrollTo({
+        top: top < 0 ? 0 : top,
+        behavior: prefersReduced ? 'auto' : 'smooth'
+      });
+
+      // Обновляем hash без прыжка
+      if (history.replaceState) history.replaceState(null, '', id);
+    });
+  });
+
+  /* ---------- 4. Появление элементов при скролле ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window && !prefersReduced) {
+    revealEls.forEach(function (el) {
+      var siblings = Array.prototype.slice.call(el.parentElement.children);
+      var index = siblings.indexOf(el);
+      if (index > 0) {
+        el.style.transitionDelay = Math.min(index, 4) * 90 + 'ms';
+      }
+    });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach(function (el) { observer.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  /* ---------- 5. Корзина ---------- */
+  var cartCountEl = document.getElementById('cartCount');
+  var cartBtn     = document.getElementById('cartBtn');
+  var count = 0;
+  var popTimer = null;
+
+  function bumpCounter() {
+    cartCountEl.classList.add('pop');
+    clearTimeout(popTimer);
+    popTimer = setTimeout(function () {
+      cartCountEl.classList.remove('pop');
+    }, 260);
+  }
+
+  document.querySelectorAll('.add-to-cart').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.disabled) return;
+
+      count += 1;
+      cartCountEl.textContent = count;
+      bumpCounter();
+
+      var original = btn.textContent;
+      btn.textContent = 'Добавлено ✓';
+      btn.disabled = true;
+
+      setTimeout(function () {
+        btn.textContent = original;
+        btn.disabled = false;
+      }, 1300);
+    });
+  });
+
+  // Лёгкий отклик на кнопку корзины
+  cartBtn.addEventListener('click', function () {
+    if (count === 0) {
+      document.getElementById('catalog').scrollIntoView({
+        behavior: prefersReduced ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    } else {
+      bumpCounter();
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
